@@ -1,0 +1,29 @@
+<div class="container">
+    <form [formGroup]="loginForm" class="form">
+        <mat-form-field>
+            <mat-label>username</mat-label>
+            <input type="email" formControlName="email" matInput placeholder="username" autocapitalize="off"
+                autocomplete="off" spellcheck="false">
+            @if (loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>password</mat-label>
+            <input type="password" formControlName="password" matInput placeholder="password">
+            @if (loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-fab extended color="primary" [disabled]="loginForm.invalid" (click)="login()">
+            <mat-icon svgIcon="add_circle" />
+            LOGIN
+        </button>
+    </form>
+</div>
