@@ -1,0 +1,39 @@
+<div class="container">
+    <form [formGroup]="registerForm" class="form">
+        <mat-form-field>
+            <mat-label>email</mat-label>
+            <input type="email" formControlName="email" matInput placeholder="example@example.com">
+            @if (registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>password</mat-label>
+            <input type="password" formControlName="password" matInput placeholder="password">
+            @if (registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>confirm password</mat-label>
+            <input type="password" formControlName="confirmPassword" matInput placeholder="confirmPassword">
+            @if (registerForm.get('confirmPassword')?.touched &&
+            registerForm.get('confirmPassword')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-fab extended color="primary" [disabled]="registerForm.invalid" (click)="register()">
+            <mat-icon svgIcon="add_circle" />
+            SAVE
+        </button>
+    </form>
+</div>
