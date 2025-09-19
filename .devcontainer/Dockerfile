@@ -1,6 +1,6 @@
 FROM node:22-alpine3.19
 
-RUN apk add git
+RUN apk add git openssh-client
 
 RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
 ENV PNPM_HOME=/usr/local/bin
