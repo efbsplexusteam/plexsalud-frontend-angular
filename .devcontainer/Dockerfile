@@ -9,7 +9,7 @@ ENV PNPM_HOME=/usr/local/bin
 RUN mkdir /opt/pnpm-store
 RUN pnpm config set store-dir /opt/pnpm-store
 
-RUN pnpm add @nestjs/cli -g
+RUN pnpm add @angular/cli -g
 
 RUN mkdir -p /api
 
