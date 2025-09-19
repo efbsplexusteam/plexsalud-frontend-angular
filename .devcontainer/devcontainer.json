@@ -1,0 +1,32 @@
+{
+	"name": "dev plexsalud-angular",
+	"dockerComposeFile": "./docker-compose.yml",
+	"service": "plexsalud-angular",
+	"workspaceFolder": "/api",
+	"shutdownAction": "stopCompose",
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"aaron-bond.better-comments",
+				"christian-kohler.path-intellisense",
+				"cweijan.vscode-database-client2",
+				"johnpapa.Angular2",
+				"esbenp.prettier-vscode",
+				"Gruntfuggly.todo-tree",
+				"MS-CEINTL.vscode-language-pack-es",
+				"ms-vscode-remote.remote-containers",
+				"PKief.material-icon-theme",
+				"Zignd.html-css-class-completion",
+				"yzhang.markdown-all-in-one",
+				"pomdtr.excalidraw-editor",
+				"bierner.markdown-mermaid",
+				"ms-vscode.vscode-speech",
+				"johnpapa.vscode-peacock",
+				"gera2ld.markmap-vscode",
+				"AykutSarac.jsoncrack-vscode",
+				"Angular.ng-template"
+			]
+		}
+	}
+}

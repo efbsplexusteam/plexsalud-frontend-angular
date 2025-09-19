@@ -1,0 +1,7 @@
+services:
+  plexsalud-angular:
+    container_name: plexsalud-angular
+    tty: true
+    build: .
+    volumes:
+      - ../:/api
