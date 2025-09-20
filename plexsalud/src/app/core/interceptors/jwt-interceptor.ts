@@ -4,19 +4,25 @@ import { Auth } from '../../modules/auth/services/auth';
 import { inject } from '@angular/core';
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
-  const accessToken = sessionStorage.getItem('access_token');
+  const accessToken = sessionStorage.getItem('access_token') || '';
 
   const authService: Auth = inject(Auth);
 
   let reqClone = req;
-  /* PROBAR HAY QUE MANDAR LOS 2 */
+
   reqClone = req.clone({
     setHeaders: { Authorization: `Bearer ${accessToken}` },
-    withCredentials: true, // para enviar cookies
+    withCredentials: true,
   });
+
   return next(reqClone).pipe(
     catchError((err: any) => {
-      if (err instanceof HttpErrorResponse && err.status === 401) {
+      if (
+        err instanceof HttpErrorResponse &&
+        err.status === 401 &&
+        !req.url.includes('/auth/refresh') && // 👈 evitamos bucle
+        !req.url.includes('/auth/logout') // 👈 opcional: no refrescar en logout
+      ) {
         console.warn('❌ Token expirado, intentando refrescar...');
         return authService.refreshToken().pipe(
           switchMap((data) => {
@@ -29,9 +35,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
           }),
           catchError((refreshErr) => {
             authService.logout();
-            return throwError(
-              () => new Error('⚠️ Error al refrescar el token:', refreshErr)
-            );
+            return throwError(() => new Error('⚠️ Error al refrescar el token:', refreshErr));
           })
         );
       }
