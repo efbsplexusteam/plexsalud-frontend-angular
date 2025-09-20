@@ -36,12 +36,13 @@ export class Login {
   url = environment.url;
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: ['', Validators.required, Validators.email],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email], []],
+      password: ['', [Validators.required], []],
     });
   }
   login() {
     const body = this.loginForm.value;
+    body.role = 'DOCTOR';
     this.authService.login(body).subscribe({
       next: (data) => {},
       error: (err) => {
@@ -60,5 +61,17 @@ export class Login {
     this._snackBar.open(message, 'Close', {
       duration: 3000,
     });
+  }
+
+  testRefreshToken() {
+    this.authService.refreshToken().subscribe({ next: () => {}, error: () => {} });
+  }
+
+  testDoctor() {
+    this.authService.test({}).subscribe({ next: () => {}, error: () => {} });
+  }
+
+  testLogout() {
+    this.authService.logout();
   }
 }

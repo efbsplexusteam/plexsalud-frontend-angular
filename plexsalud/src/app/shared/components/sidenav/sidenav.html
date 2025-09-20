@@ -1,0 +1,45 @@
+<mat-drawer-container class="sidenav-container" autosize>
+    <!-- mat-drawer es el elemento que se desplega aqui dentro meter los enlaces -->
+    <mat-drawer #drawer class="sidenav-padding" mode="over">
+
+        <div style="position: sticky; top:0; z-index: 3;display: flex; flex-direction: row-reverse;">
+            <button mat-icon-button (click)="drawer.toggle()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <a mat-icon-button (click)="drawer.toggle()" [routerLink]="['/home']" [routerLinkActive]="['active']">
+            <mat-icon>home</mat-icon>
+        </a>
+
+        <br>
+
+        @if ((user$|async)?.user?.role=='') {
+        <a mat-flat-button (click)="drawer.toggle()" [routerLink]="['/auth/login']" [routerLinkActive]="['active']">
+            Login
+        </a>
+        }
+
+        <br>
+
+        @if ((user$|async)?.user?.role=='') {
+        <a mat-flat-button (click)="drawer.toggle()" [routerLink]="['/auth/register']" [routerLinkActive]="['active']">
+            Register
+        </a>
+        }
+
+    </mat-drawer>
+
+    <!--  -->
+    <div class="sidenav-flex-container">
+        <div class="toolbar">
+            <app-toolbar [matDrawerShow]="drawer" />
+        </div>
+
+        <div class="sidenav-flex-1">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+    <!--  -->
+
+</mat-drawer-container>

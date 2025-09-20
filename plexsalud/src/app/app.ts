@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Sidenav } from './shared/components/sidenav/sidenav';
+import { SpinnerComponent } from './shared/components/spinner/spinner';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [Sidenav, SpinnerComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('plexsalud');

@@ -1,3 +1,3 @@
 export const environment = {
-  url: 'http://localhost:8080/api/v1',
+  url: 'http://plexsalud:8080/api/v1',
 };

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { Observable, tap } from 'rxjs';
 import { State } from './state';
+import { Role } from '../models/role';
 
 @Injectable({
   providedIn: 'root',
@@ -31,12 +32,16 @@ export class Auth {
       );
   }
 
-  changePassword(body: any) {
-    return this._httpClient.post(`${this.url}/auth/change-password`, body).pipe(
-      tap(() => {
-        this.logout();
-      })
-    );
+  // changePassword(body: any) {
+  //   return this._httpClient.post(`${this.url}/auth/change-password`, body).pipe(
+  //     tap(() => {
+  //       this.logout();
+  //     })
+  //   );
+  // }
+
+  test(body: any) {
+    return this._httpClient.post(`${this.url}/doctor`, body);
   }
 
   resetPassword(body: any) {
@@ -49,7 +54,9 @@ export class Auth {
 
   refreshToken(): Observable<{ accessToken: string; role: string }> {
     return this._httpClient
-      .get<{ accessToken: string; role: string }>(`${this.url}/auth/refresh`)
+      .get<{ accessToken: string; role: string }>(`${this.url}/auth/refresh`, {
+        withCredentials: true,
+      })
       .pipe(
         tap((data) => {
           sessionStorage.setItem('access_token', data.accessToken);
@@ -79,7 +86,7 @@ export class Auth {
     });
   }
 
-  register(body: { name: string; email: string; password: string }) {
+  register(body: { name: string; email: string; password: string; role: Role }) {
     return this._httpClient.post(`${this.url}/auth/signup`, body);
   }
 }

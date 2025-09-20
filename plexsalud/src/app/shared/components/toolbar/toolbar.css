@@ -1,0 +1,27 @@
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  display: flex;
+  overflow-x: auto;
+  /* Activa el desplazamiento horizontal */
+  white-space: nowrap;
+  /* Evita que los elementos se vayan a la siguiente línea */
+}
+
+.active {
+  background-color: #04aa6d;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto;
+  /* Permite el scroll horizontal */
+  scrollbar-width: none;
+  /* Oculta la barra de desplazamiento */
+}

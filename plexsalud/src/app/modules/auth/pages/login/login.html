@@ -2,8 +2,8 @@
     <form [formGroup]="loginForm" class="form">
         <mat-form-field>
             <mat-label>username</mat-label>
-            <input type="email" formControlName="email" matInput placeholder="username" autocapitalize="off"
-                autocomplete="off" spellcheck="false">
+            <input type="email" formControlName="email" matInput placeholder="example@example.com" autocapitalize="off"
+                autocomplete="email" spellcheck="false">
             @if (loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']) {
             <mat-error>
                 este campo es obligatorio
@@ -13,7 +13,8 @@
 
         <mat-form-field>
             <mat-label>password</mat-label>
-            <input type="password" formControlName="password" matInput placeholder="password">
+            <input type="password" formControlName="password" matInput placeholder="password"
+                autocomplete="current-password">
             @if (loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']) {
             <mat-error>
                 este campo es obligatorio
@@ -22,8 +23,23 @@
         </mat-form-field>
 
         <button mat-fab extended color="primary" [disabled]="loginForm.invalid" (click)="login()">
-            <mat-icon svgIcon="add_circle" />
+            <mat-icon>add_circle</mat-icon>
             LOGIN
+        </button>
+
+        <button mat-fab extended color="secondary"  (click)="testRefreshToken()">
+            <mat-icon>add_circle</mat-icon>
+            test refresh
+        </button>
+
+        <button mat-fab extended color="secondary"  (click)="testDoctor()">
+            <mat-icon>add_circle</mat-icon>
+            test doctor
+        </button>
+
+        <button mat-fab extended color="secondary"  (click)="testLogout()">
+            <mat-icon>add_circle</mat-icon>
+            test logout
         </button>
     </form>
 </div>

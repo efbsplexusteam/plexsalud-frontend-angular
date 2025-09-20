@@ -39,15 +39,18 @@ export class Register {
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group(
       {
-        email: ['', Validators.required, Validators.email],
-        password: ['', Validators.required],
-        confirmPassword: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email], []],
+        password: ['', [Validators.required], []],
+        confirmPassword: ['', [Validators.required], []],
       },
-      { validator: this.passwordsMatchValidator } // custom validator
+      {
+        validators: [this.passwordsMatchValidator],
+      }
     );
   }
   register() {
     const body = this.registerForm.value;
+    body.role = 1;
     this.authService.register(body).subscribe({
       next: (data) => {
         this._router.navigate(['/']);

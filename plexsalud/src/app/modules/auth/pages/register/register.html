@@ -2,7 +2,7 @@
     <form [formGroup]="registerForm" class="form">
         <mat-form-field>
             <mat-label>email</mat-label>
-            <input type="email" formControlName="email" matInput placeholder="example@example.com">
+            <input type="email" formControlName="email" matInput placeholder="example@example.com" autocomplete="email">
             @if (registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']) {
             <mat-error>
                 este campo es obligatorio
@@ -12,7 +12,8 @@
 
         <mat-form-field>
             <mat-label>password</mat-label>
-            <input type="password" formControlName="password" matInput placeholder="password">
+            <input type="password" formControlName="password" matInput placeholder="password"
+                autocomplete="new-password">
             @if (registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']) {
             <mat-error>
                 este campo es obligatorio
@@ -22,7 +23,8 @@
 
         <mat-form-field>
             <mat-label>confirm password</mat-label>
-            <input type="password" formControlName="confirmPassword" matInput placeholder="confirmPassword">
+            <input type="password" formControlName="confirmPassword" matInput placeholder="confirmPassword"
+                autocomplete="new-password">
             @if (registerForm.get('confirmPassword')?.touched &&
             registerForm.get('confirmPassword')?.errors?.['required']) {
             <mat-error>
@@ -32,7 +34,7 @@
         </mat-form-field>
 
         <button mat-fab extended color="primary" [disabled]="registerForm.invalid" (click)="register()">
-            <mat-icon svgIcon="add_circle" />
+            <mat-icon>add_circle</mat-icon>
             SAVE
         </button>
     </form>
