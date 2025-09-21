@@ -12,7 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Auth } from '../../services/auth';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Role } from '../../models/role';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +23,7 @@ import { Router } from '@angular/router';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    RouterModule,
   ],
   templateUrl: './register.html',
   styleUrl: './register.css',
@@ -35,6 +37,9 @@ export class Register {
   private formBuilder: FormBuilder = inject(FormBuilder);
   private _router: Router = inject(Router);
 
+  private _activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  rolePath!: Role;
+
   constructor() {}
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group(
@@ -42,21 +47,36 @@ export class Register {
         email: ['', [Validators.required, Validators.email], []],
         password: ['', [Validators.required], []],
         confirmPassword: ['', [Validators.required], []],
+        role: ['', [Validators.required]],
       },
       {
         validators: [this.passwordsMatchValidator],
       }
     );
+
+    this._activatedRoute.paramMap.subscribe((params) => {
+      const role = params.get('role');
+      if (role && role !== '') {
+        const match = Object.values(Role).find((val) => val.toLowerCase() === role.toLowerCase());
+
+        if (match) {
+          this.rolePath = match as Role;
+          this.registerForm.reset();
+          this.registerForm.get('role')?.setValue(this.rolePath);
+        } else {
+          this._router.navigate(['/auth/register/patient']);
+        }
+      }
+    });
   }
   register() {
     const body = this.registerForm.value;
-    body.role = 1;
     this.authService.register(body).subscribe({
       next: (data) => {
-        this._router.navigate(['/']);
+        this._router.navigate(['/auth/login/' + this.rolePath.toLowerCase()]);
       },
       error: (err) => {
-        this.showSnackBar(err.error.message);
+        this.showSnackBar(err);
       },
     });
   }

@@ -1,4 +1,5 @@
 <div class="container">
+    <h1>Login</h1>
     <form [formGroup]="loginForm" class="form">
         <mat-form-field>
             <mat-label>username</mat-label>
@@ -24,22 +25,22 @@
 
         <button mat-fab extended color="primary" [disabled]="loginForm.invalid" (click)="login()">
             <mat-icon>add_circle</mat-icon>
-            LOGIN
+            LOGIN {{rolePath}}
         </button>
 
-        <button mat-fab extended color="secondary"  (click)="testRefreshToken()">
-            <mat-icon>add_circle</mat-icon>
-            test refresh
-        </button>
-
-        <button mat-fab extended color="secondary"  (click)="testDoctor()">
-            <mat-icon>add_circle</mat-icon>
-            test doctor
-        </button>
-
-        <button mat-fab extended color="secondary"  (click)="testLogout()">
-            <mat-icon>add_circle</mat-icon>
-            test logout
-        </button>
+        <div style="padding-top: 8px; display: flex; gap: 8px;">
+            <a mat-fab extended color="link" [routerLink]="['../doctor']" [routerLinkActive]="['active']"
+                [disabled]="rolePath=='DOCTOR'">
+                <mat-icon>medical_information</mat-icon>
+            </a>
+            <a mat-fab extended color="link" [routerLink]="['../patient']" [routerLinkActive]="['active']"
+                [disabled]="rolePath=='PATIENT'">
+                <mat-icon>personal_injury</mat-icon>
+            </a>
+            <a mat-fab extended color="link" [routerLink]="['../nurse']" [routerLinkActive]="['active']"
+                [disabled]="rolePath=='NURSE'">
+                <mat-icon>contact_emergency</mat-icon>
+            </a>
+        </div>
     </form>
 </div>

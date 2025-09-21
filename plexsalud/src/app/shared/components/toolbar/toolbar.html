@@ -12,12 +12,12 @@
     <div class="scroll-container">
 
         @if (existToken()==false) {
-        <button mat-icon-button [routerLink]="['/auth/login']" [routerLinkActive]="['active']">
+        <button mat-icon-button [routerLink]="['/auth/login/patient']" [routerLinkActive]="['active']">
             <mat-icon>login</mat-icon>
         </button>
         }
         @if (existToken()==false) {
-        <button mat-icon-button [routerLink]="['/auth/register']" [routerLinkActive]="['active']">
+        <button mat-icon-button [routerLink]="['/auth/register/patient']" [routerLinkActive]="['active']">
             <mat-icon>person_add</mat-icon>
         </button>
         }

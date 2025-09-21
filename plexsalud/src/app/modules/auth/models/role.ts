@@ -1,5 +1,5 @@
 export enum Role {
-  DOCTOR,
-  PATIENT,
-  NURSE,
+  PATIENT = 'PATIENT',
+  DOCTOR = 'DOCTOR',
+  NURSE = 'NURSE',
 }

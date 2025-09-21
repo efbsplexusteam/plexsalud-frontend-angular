@@ -18,7 +18,7 @@ export class Auth {
 
   constructor() {}
 
-  login(body: any): Observable<{ accessToken: string; role: string }> {
+  login(body: {email:string, password:string, role:string}): Observable<{ accessToken: string; role: string }> {
     return this._httpClient
       .post<{ accessToken: string; role: string }>(`${this.url}/auth/login`, body)
       .pipe(
@@ -27,21 +27,9 @@ export class Auth {
           this.stateService.setExistToken(true);
           sessionStorage.setItem('role', data.role);
           this.stateService.setRole(data.role);
-          this._router.navigate(['']);
+          // this._router.navigate(['']);
         })
       );
-  }
-
-  // changePassword(body: any) {
-  //   return this._httpClient.post(`${this.url}/auth/change-password`, body).pipe(
-  //     tap(() => {
-  //       this.logout();
-  //     })
-  //   );
-  // }
-
-  test(body: any) {
-    return this._httpClient.post(`${this.url}/doctor`, body);
   }
 
   resetPassword(body: any) {
