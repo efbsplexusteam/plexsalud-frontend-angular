@@ -1,6 +1,6 @@
 FROM node:22-alpine3.19
 
-RUN apk add git
+RUN apk add git openssh-client
 
 RUN corepack enable && corepack prepare pnpm@10.0.0 --activate
 ENV PNPM_HOME=/usr/local/bin
@@ -9,7 +9,7 @@ ENV PNPM_HOME=/usr/local/bin
 RUN mkdir /opt/pnpm-store
 RUN pnpm config set store-dir /opt/pnpm-store
 
-RUN pnpm add @nestjs/cli -g
+RUN pnpm add @angular/cli -g
 
 RUN mkdir -p /api
 

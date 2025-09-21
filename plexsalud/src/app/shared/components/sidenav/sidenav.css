@@ -1,0 +1,81 @@
+.sidenav {
+  width: 0;
+
+  z-index: 1;
+
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  scrollbar-width: 0;
+  overflow-y: scroll;
+
+  position: absolute;
+  top: 0;
+  /* se pegara arriba */
+  left: 0;
+  /* se pegara a la izquierda */
+  bottom: 0;
+  /* se pegara abajo */
+  /* con estas propiedades top y bottom ya no necesitamos darle un height */
+}
+
+.sidenav a {
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  padding: 1em;
+  transition: 1s;
+}
+
+.sidenav a:hover {
+  transform: translateX(1em);
+  font-size: xx-large;
+  background-color: royalblue;
+  color: white;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  /* margin-left: 50px; */
+  margin: 1em;
+}
+
+/* .sidenav-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-shrink: 0;
+} */
+
+.sidenav-padding {
+  padding: 20px;
+}
+
+.active {
+  background-color: #04aa6d;
+}
+
+.sidenav-flex-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  flex-shrink: 0;
+  /* Evita que se reduzca */
+}
+
+.sidenav-flex-1 {
+  flex: 1;
+
+  overflow: scroll; /* Añade un desplazamiento si el contenido es mayor al espacio disponible */
+}

@@ -1,0 +1,41 @@
+<mat-toolbar color="primary" class="toolbar">
+    <button mat-icon-button (click)="matDrawerShow.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-icon-button [routerLink]="['/home']" [routerLinkActive]="['active']">
+        <mat-icon>home</mat-icon>
+    </button>
+
+    <span class="spacer"></span>
+
+    <!-- + Contenedor de iconos desplazables -->
+    <div class="scroll-container">
+
+        @if (existToken()==false) {
+        <button mat-icon-button [routerLink]="['/auth/login/patient']" [routerLinkActive]="['active']">
+            <mat-icon>login</mat-icon>
+        </button>
+        }
+        @if (existToken()==false) {
+        <button mat-icon-button [routerLink]="['/auth/register/patient']" [routerLinkActive]="['active']">
+            <mat-icon>person_add</mat-icon>
+        </button>
+        }
+        @if (existToken()==true) {
+        <button mat-icon-button [routerLink]="['user/layout/profile']" [routerLinkActive]="['active']">
+            <mat-icon>person</mat-icon>
+        </button>
+        }
+        @if (existToken()==true) {
+        <button mat-icon-button (click)="logout()">
+            <mat-icon>logout</mat-icon>
+        </button>
+        }
+    </div>
+
+    <section>
+        <mat-slide-toggle color="warn" (change)="toggleTheme()" [checked]="darkMode">
+            <mat-icon>{{darkMode ? 'dark_mode' : 'light_mode'}}</mat-icon>
+        </mat-slide-toggle>
+    </section>
+</mat-toolbar>

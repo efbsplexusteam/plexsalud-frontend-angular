@@ -1,0 +1,46 @@
+<div class="container">
+    <h1>Login</h1>
+    <form [formGroup]="loginForm" class="form">
+        <mat-form-field>
+            <mat-label>username</mat-label>
+            <input type="email" formControlName="email" matInput placeholder="example@example.com" autocapitalize="off"
+                autocomplete="email" spellcheck="false">
+            @if (loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>password</mat-label>
+            <input type="password" formControlName="password" matInput placeholder="password"
+                autocomplete="current-password">
+            @if (loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-fab extended color="primary" [disabled]="loginForm.invalid" (click)="login()">
+            <mat-icon>add_circle</mat-icon>
+            LOGIN {{rolePath}}
+        </button>
+
+        <div style="padding-top: 8px; display: flex; gap: 8px;">
+            <a mat-fab extended color="link" [routerLink]="['../doctor']" [routerLinkActive]="['active']"
+                [disabled]="rolePath=='DOCTOR'">
+                <mat-icon>medical_information</mat-icon>
+            </a>
+            <a mat-fab extended color="link" [routerLink]="['../patient']" [routerLinkActive]="['active']"
+                [disabled]="rolePath=='PATIENT'">
+                <mat-icon>personal_injury</mat-icon>
+            </a>
+            <a mat-fab extended color="link" [routerLink]="['../nurse']" [routerLinkActive]="['active']"
+                [disabled]="rolePath=='NURSE'">
+                <mat-icon>contact_emergency</mat-icon>
+            </a>
+        </div>
+    </form>
+</div>
