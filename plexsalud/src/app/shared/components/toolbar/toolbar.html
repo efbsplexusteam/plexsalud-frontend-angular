@@ -22,7 +22,7 @@
         </button>
         }
         @if (existToken()==true) {
-        <button mat-icon-button [routerLink]="['user/layout/profile']" [routerLinkActive]="['active']">
+        <button mat-icon-button [routerLink]="[role().toLowerCase() + '/profile']" [routerLinkActive]="['active']">
             <mat-icon>person</mat-icon>
         </button>
         }
@@ -33,9 +33,9 @@
         }
     </div>
 
-    <section>
+    <!-- <section>
         <mat-slide-toggle color="warn" (change)="toggleTheme()" [checked]="darkMode">
             <mat-icon>{{darkMode ? 'dark_mode' : 'light_mode'}}</mat-icon>
         </mat-slide-toggle>
-    </section>
+    </section> -->
 </mat-toolbar>
