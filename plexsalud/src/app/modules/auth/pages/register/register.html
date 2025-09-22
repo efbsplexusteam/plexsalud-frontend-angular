@@ -40,15 +40,15 @@
         </button>
 
         <div style="padding-top: 8px; display: flex; gap: 8px;">
-            <a mat-fab extended color="link" [routerLink]="['../doctor']" [routerLinkActive]="['active']"
+            <a mat-fab extended color="primary" [routerLink]="['../doctor']" [routerLinkActive]="['active']"
                 [disabled]="rolePath=='DOCTOR'">
                 <mat-icon>medical_information</mat-icon>
             </a>
-            <a mat-fab extended color="link" [routerLink]="['../patient']" [routerLinkActive]="['active']"
+            <a mat-fab extended color="warn" [routerLink]="['../patient']" [routerLinkActive]="['active']"
                 [disabled]="rolePath=='PATIENT'">
                 <mat-icon>personal_injury</mat-icon>
             </a>
-            <a mat-fab extended color="link" [routerLink]="['../nurse']" [routerLinkActive]="['active']"
+            <a mat-fab extended color="accent" [routerLink]="['../nurse']" [routerLinkActive]="['active']"
                 [disabled]="rolePath=='NURSE'">
                 <mat-icon>contact_emergency</mat-icon>
             </a>

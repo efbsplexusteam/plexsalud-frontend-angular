@@ -27,7 +27,6 @@ export class Auth {
           this.stateService.setExistToken(true);
           sessionStorage.setItem('role', data.role);
           this.stateService.setRole(data.role);
-          // this._router.navigate(['']);
         })
       );
   }

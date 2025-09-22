@@ -68,10 +68,13 @@ export class Login {
     const body = this.loginForm.value;
     this.authService.login(body).subscribe({
       next: (data) => {
-        alert(data.role)
+        const redirect: string = data.role.toLowerCase();
+        this._router.navigate([`/${redirect}/profile`]);
       },
       error: (err) => {
-        this.showSnackBar(err);
+        if (err.status == 401) {
+          this.showSnackBar("Bad credentials");
+        }
       },
     });
   }

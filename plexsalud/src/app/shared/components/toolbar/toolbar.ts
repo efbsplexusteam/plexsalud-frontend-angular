@@ -1,4 +1,4 @@
-import { Component, inject, Input, Renderer2, Signal } from '@angular/core';
+import { Component, inject, Input, OnInit, Renderer2, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -10,46 +10,40 @@ import { Auth } from '../../../modules/auth/services/auth';
 
 @Component({
   selector: 'app-toolbar',
-  imports: [
-    RouterModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatSlideToggleModule,
-  ],
+  imports: [RouterModule, MatToolbarModule, MatButtonModule, MatIconModule, MatSlideToggleModule],
   templateUrl: './toolbar.html',
   styleUrl: './toolbar.css',
 })
 export class Toolbar {
   darkMode = false;
 
-  constructor(private renderer: Renderer2) {
-    this.loadTheme(); // Cargar el modo guardado
-  }
+  // constructor(private renderer: Renderer2) {
+  //   this.loadTheme(); // Cargar el modo guardado
+  // }
 
-  toggleTheme() {
-    this.darkMode = !this.darkMode;
-    if (this.darkMode) {
-      this.renderer.addClass(document.body, 'dark');
-      this.renderer.removeClass(document.body, 'light');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      this.renderer.addClass(document.body, 'light');
-      this.renderer.removeClass(document.body, 'dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }
+  // toggleTheme() {
+  //   this.darkMode = !this.darkMode;
+  //   if (this.darkMode) {
+  //     this.renderer.addClass(document.body, 'dark');
+  //     this.renderer.removeClass(document.body, 'light');
+  //     localStorage.setItem('theme', 'dark');
+  //   } else {
+  //     this.renderer.addClass(document.body, 'light');
+  //     this.renderer.removeClass(document.body, 'dark');
+  //     localStorage.setItem('theme', 'light');
+  //   }
+  // }
 
-  loadTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      this.darkMode = true;
-      this.renderer.addClass(document.body, 'dark');
-    } else {
-      this.darkMode = false;
-      this.renderer.addClass(document.body, 'light');
-    }
-  }
+  // loadTheme() {
+  //   const savedTheme = localStorage.getItem('theme');
+  //   if (savedTheme === 'dark') {
+  //     this.darkMode = true;
+  //     this.renderer.addClass(document.body, 'dark');
+  //   } else {
+  //     this.darkMode = false;
+  //     this.renderer.addClass(document.body, 'light');
+  //   }
+  // }
 
   _router: Router = inject(Router);
 
@@ -61,6 +55,17 @@ export class Toolbar {
   existToken: Signal<boolean> = this.stateService.existToken;
 
   @Input() matDrawerShow!: MatDrawer;
+
+  ngOnInit(): void {
+    const role = sessionStorage.getItem('role');
+    const access_token = sessionStorage.getItem('access_token');
+    if (role && access_token) {
+      this.stateService.setExistToken(true);
+      this.stateService.setRole(role);
+    } else {
+      this.authService.refreshToken().subscribe();
+    }
+  }
 
   logout() {
     /* funcion para desloguear y volver al login */
