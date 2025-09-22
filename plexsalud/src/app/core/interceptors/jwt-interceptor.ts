@@ -21,6 +21,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
         err instanceof HttpErrorResponse &&
         err.status === 401 &&
         !req.url.includes('/auth/refresh') && // 👈 evitamos bucle
+        !req.url.includes('/auth/login') &&
         !req.url.includes('/auth/logout') // 👈 opcional: no refrescar en logout
       ) {
         console.warn('❌ Token expirado, intentando refrescar...');
