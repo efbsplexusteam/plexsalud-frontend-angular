@@ -16,9 +16,11 @@ export class Auth {
   private _router: Router = inject(Router);
   private stateService: State = inject(State);
 
-  constructor() {}
-
-  login(body: {email:string, password:string, role:string}): Observable<{ accessToken: string; role: string }> {
+  login(body: {
+    email: string;
+    password: string;
+    role: string;
+  }): Observable<{ accessToken: string; role: string }> {
     return this._httpClient
       .post<{ accessToken: string; role: string }>(`${this.url}/auth/login`, body)
       .pipe(
@@ -29,14 +31,6 @@ export class Auth {
           this.stateService.setRole(data.role);
         })
       );
-  }
-
-  resetPassword(body: any) {
-    return this._httpClient.post(`${this.url}/auth/reset-password`, body).pipe(
-      tap(() => {
-        this.logout();
-      })
-    );
   }
 
   refreshToken(): Observable<{ accessToken: string; role: string }> {
@@ -54,16 +48,7 @@ export class Auth {
       );
   }
 
-  tryRefreshToken(): Promise<void> {
-    return new Promise((resolve) => {
-      this.refreshToken().subscribe({
-        next: () => resolve(),
-        error: () => resolve(), // Resolvemos también en error para no bloquear la app
-      });
-    });
-  }
-
-  logout() {
+  logout(): void {
     this._httpClient.get(`${this.url}/auth/logout`).subscribe(() => {
       sessionStorage.removeItem('role');
       this.stateService.setRole('');
@@ -73,7 +58,7 @@ export class Auth {
     });
   }
 
-  register(body: { name: string; email: string; password: string; role: Role }) {
+  register(body: { name: string; email: string; password: string; role: Role }): Observable<any> {
     return this._httpClient.post(`${this.url}/auth/signup`, body);
   }
 }

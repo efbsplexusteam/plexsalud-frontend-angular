@@ -20,14 +20,13 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
       if (
         err instanceof HttpErrorResponse &&
         err.status === 401 &&
-        !req.url.includes('/auth/refresh') && // 👈 evitamos bucle
+        !req.url.includes('/auth/refresh') &&
         !req.url.includes('/auth/login') &&
-        !req.url.includes('/auth/logout') // 👈 opcional: no refrescar en logout
+        !req.url.includes('/auth/logout')
       ) {
         console.warn('❌ Token expirado, intentando refrescar...');
         return authService.refreshToken().pipe(
           switchMap((data) => {
-            // Reintentar la solicitud con el nuevo token
             const retryReq = req.clone({
               setHeaders: { Authorization: `Bearer ${data.accessToken}` },
             });
@@ -36,11 +35,10 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
           }),
           catchError((refreshErr) => {
             authService.logout();
-            return throwError(() => new Error('⚠️ Error al refrescar el token:', refreshErr));
+            return throwError(() => new Error('⚠️ Error token refresh:', refreshErr));
           })
         );
       }
-      // Re-throw the error to propagate it further
       return throwError(() => err);
     })
   );
