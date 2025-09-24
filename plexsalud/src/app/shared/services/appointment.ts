@@ -24,16 +24,25 @@ export class Appointment {
     uuid: string
   ): Observable<{ uuid: string; date: string }[]> {
     const params = new HttpParams().append('doctor', uuid);
-    return this._httpClient.get<{ uuid: string; date: string }[]>(`${this.url}/appointment/doctor-search-by-patient`, {
-      params,
-    });
+    return this._httpClient.get<{ uuid: string; date: string }[]>(
+      `${this.url}/appointment/doctor-search-by-patient`,
+      {
+        params,
+      }
+    );
   }
 
   getAllAppointmentsByPatient(): Observable<{ uuid: string; date: string }[]> {
-    return this._httpClient.get<{ uuid: string; date: string }[]>(`${this.url}/appointment/patient`);
+    return this._httpClient.get<{ uuid: string; date: string }[]>(
+      `${this.url}/appointment/patient`
+    );
   }
 
   getAllAppointmentsByDoctor(): Observable<{ uuid: string; date: string }[]> {
     return this._httpClient.get<{ uuid: string; date: string }[]>(`${this.url}/appointment/doctor`);
+  }
+
+  cancelAppointment(uuid: string): Observable<string> {
+    return this._httpClient.delete<string>(`${this.url}/appointment/${uuid}`);
   }
 }

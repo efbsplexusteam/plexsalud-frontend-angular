@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Calendar } from '../../../../shared/components/calendar/calendar';
 import { Appointment } from '../../../../shared/services/appointment';
 import { Subject, takeUntil } from 'rxjs';
-import { EventClickArg } from '@fullcalendar/core/index.js';
+import { EventClickArg, EventSourceInput } from '@fullcalendar/core/index.js';
+import { Identity } from '@fullcalendar/core/internal';
 
 @Component({
   selector: 'app-appointments',
@@ -11,7 +12,7 @@ import { EventClickArg } from '@fullcalendar/core/index.js';
   styleUrl: './appointments.css',
 })
 export class Appointments {
-  calendarEvents: any[] = [];
+  calendarEvents: any = signal<Identity<EventSourceInput>[]>([]);
 
   private appointmentServices: Appointment = inject(Appointment);
 
@@ -26,12 +27,24 @@ export class Appointments {
     this.destroy$.complete();
   }
 
-  removeAppointment(event: EventClickArg) {
+  removeAppointment(event: EventClickArg): void {
     console.log('remove--->');
     console.log(event.event.extendedProps);
+    const uuid = event.event.extendedProps['uuid'];
+    if (uuid) {
+      this.appointmentServices
+        .cancelAppointment(uuid)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (data) => {
+            alert(data);
+          },
+          error: () => {},
+        });
+    }
   }
 
-  getAllAppointmentsByPatient() {
+  private getAllAppointmentsByPatient(): void {
     this.appointmentServices
       .getAllAppointmentsByPatient()
       .pipe(takeUntil(this.destroy$))
@@ -45,7 +58,7 @@ export class Appointments {
               },
             };
           });
-          this.calendarEvents = events;
+          this.calendarEvents.set(events);
         },
         error: () => {},
       });

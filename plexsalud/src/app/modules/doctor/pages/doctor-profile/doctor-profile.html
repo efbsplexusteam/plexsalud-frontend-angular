@@ -1,2 +1,2 @@
-<p><b> {{user()}}</b> doctor-profile works!</p>
-<app-calendar />
+<h1>Welcome, {{ user() }}! Here are your appointments.</h1>
+<app-calendar [events]="calendarEvents()" (removeAppointment)="removeAppointment($event)" />
