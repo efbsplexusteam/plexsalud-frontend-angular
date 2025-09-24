@@ -1,0 +1,12 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Se asegurará de que ocupe toda la altura disponible */
+}
