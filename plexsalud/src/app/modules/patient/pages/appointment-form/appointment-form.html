@@ -1,0 +1,44 @@
+<mat-stepper linear #stepper>
+    <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+        <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Select Specialty</ng-template>
+
+            <mat-form-field>
+                <mat-label>Specialty</mat-label>
+                <mat-select formControlName="firstCtrl"
+                    (selectionChange)="getAllDoctorsBySpecialty($event.value); stepper.next()">
+                    @for (specialty of specialties(); track specialty) {
+                    <mat-option [value]="specialty">{{specialty.toUpperCase()}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup" [editable]="false">
+        <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Select Appointment</ng-template>
+            <mat-form-field>
+                <mat-label>Doctor</mat-label>
+                <mat-select formControlName="secondCtrl"
+                    (selectionChange)="getAllAppointmentsByDoctorSearchByPatient($event.value); stepper.next()">
+                    @for (doctor of doctors(); track doctor) {
+                    <mat-option [value]="doctor.uuid">{{doctor.fullName.toUpperCase()}}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <div>
+                <button matButton [color]="'accent'" (click)="stepper.reset()">Reset</button>
+            </div>
+        </form>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Finish</ng-template>
+        <div>
+            <button matButton [color]="'accent'" (click)="stepper.reset()">Reset</button>
+        </div>
+        <app-calendar [events]="calendarEvents" (addAppointment)="addAppointment($event)"
+            (removeAppointment)="removeAppointment($event)" />
+    </mat-step>
+</mat-stepper>
