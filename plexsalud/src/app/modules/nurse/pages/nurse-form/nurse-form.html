@@ -1,0 +1,21 @@
+<div class="container">
+    <h1>Create new nurse</h1>
+    <form [formGroup]="nurseForm" class="form">
+        <mat-form-field>
+            <mat-label>fullName</mat-label>
+            <input type="text" formControlName="fullName" matInput placeholder="patient" autocapitalize="off"
+                autocomplete="name" spellcheck="false">
+            @if (nurseForm.get('fullName')?.touched && nurseForm.get('fullName')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+
+        <button mat-fab extended color="primary" [disabled]="nurseForm.invalid" (click)="create()">
+            <mat-icon>add_circle</mat-icon>
+            Create new nurse
+        </button>
+    </form>
+</div>
