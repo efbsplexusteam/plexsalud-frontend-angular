@@ -1,0 +1,31 @@
+<div class="container">
+    <h1>Create new doctor</h1>
+    <form [formGroup]="doctorForm" class="form">
+        <mat-form-field>
+            <mat-label>fullName</mat-label>
+            <input type="text" formControlName="fullName" matInput placeholder="patient" autocapitalize="off"
+                autocomplete="name" spellcheck="false">
+            @if (doctorForm.get('fullName')?.touched && doctorForm.get('fullName')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>specialty</mat-label>
+            <input type="text" formControlName="specialty" matInput placeholder="specialty" autocapitalize="off"
+                autocomplete="specialty" spellcheck="false">
+            @if (doctorForm.get('specialty')?.touched && doctorForm.get('specialty')?.errors?.['required']) {
+            <mat-error>
+                este campo es obligatorio
+            </mat-error>
+            }
+        </mat-form-field>
+
+        <button mat-fab extended color="primary" [disabled]="doctorForm.invalid" (click)="create()">
+            <mat-icon>add_circle</mat-icon>
+            Create new doctor
+        </button>
+    </form>
+</div>
