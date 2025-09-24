@@ -10,6 +10,7 @@ import { State } from '../../services/state';
 import { Auth } from '../../services/auth';
 import { Role } from '../../models/role';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -27,11 +28,14 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 })
 export class Login {
   private _snackBar: MatSnackBar = inject(MatSnackBar);
-  loginForm!: FormGroup;
 
   private authService: Auth = inject(Auth);
   private formBuilder: FormBuilder = inject(FormBuilder);
-
+  loginForm: FormGroup = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email], []],
+    password: ['', [Validators.required], []],
+    role: ['', [Validators.required]],
+  });
   private _activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private _router: Router = inject(Router);
 
@@ -42,14 +46,10 @@ export class Login {
   rolePath!: Role;
 
   url = environment.url;
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email], []],
-      password: ['', [Validators.required], []],
-      role: ['', [Validators.required]],
-    });
 
-    this._activatedRoute.paramMap.subscribe((params) => {
+  private destroy$ = new Subject<void>();
+  ngOnInit(): void {
+    this._activatedRoute.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       const role = params.get('role');
       if (role && role !== '') {
         const match = Object.values(Role).find((val) => val.toLowerCase() === role.toLowerCase());
@@ -64,28 +64,35 @@ export class Login {
       }
     });
   }
-  login() {
-    const body = this.loginForm.value;
-    this.authService.login(body).subscribe({
-      next: (data) => {
-        const redirect: string = data.role.toLowerCase();
-        this._router.navigate([`/${redirect}/profile`]);
-      },
-      error: (err) => {
-        if (err.status == 401) {
-          this.showSnackBar("Bad credentials");
-        }
-      },
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-  resetLoginForm() {
+  login(): void {
+    const body = this.loginForm.value;
+    this.authService
+      .login(body)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          const redirect: string = data.role.toLowerCase();
+          this._router.navigate([`/${redirect}/profile`]);
+        },
+        error: (err) => {
+          if (err.status == 401) {
+            this.showSnackBar('Bad credentials');
+          }
+        },
+      });
+  }
+  resetLoginForm(): void {
     this.loginForm.reset();
   }
-  focus(input: HTMLElement) {
+  focus(input: HTMLElement): void {
     input.focus();
   }
 
-  showSnackBar(message: string) {
+  showSnackBar(message: string): void {
     this._snackBar.open(message, 'Close', {
       duration: 3000,
     });

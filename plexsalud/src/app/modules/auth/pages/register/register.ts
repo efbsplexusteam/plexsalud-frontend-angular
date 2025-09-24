@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Auth } from '../../services/auth';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Role } from '../../models/role';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -31,30 +32,29 @@ import { Role } from '../../models/role';
 export class Register {
   private _snackBar: MatSnackBar = inject(MatSnackBar);
 
-  registerForm!: FormGroup;
-
   private authService: Auth = inject(Auth);
   private formBuilder: FormBuilder = inject(FormBuilder);
+
+  registerForm: FormGroup = this.formBuilder.group(
+    {
+      email: ['', [Validators.required, Validators.email], []],
+      password: ['', [Validators.required], []],
+      confirmPassword: ['', [Validators.required], []],
+      role: ['', [Validators.required]],
+    },
+    {
+      validators: [this.passwordsMatchValidator],
+    }
+  );
   private _router: Router = inject(Router);
 
   private _activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   rolePath!: Role;
 
-  constructor() {}
-  ngOnInit(): void {
-    this.registerForm = this.formBuilder.group(
-      {
-        email: ['', [Validators.required, Validators.email], []],
-        password: ['', [Validators.required], []],
-        confirmPassword: ['', [Validators.required], []],
-        role: ['', [Validators.required]],
-      },
-      {
-        validators: [this.passwordsMatchValidator],
-      }
-    );
+  private destroy$ = new Subject<void>();
 
-    this._activatedRoute.paramMap.subscribe((params) => {
+  ngOnInit(): void {
+    this._activatedRoute.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
       const role = params.get('role');
       if (role && role !== '') {
         const match = Object.values(Role).find((val) => val.toLowerCase() === role.toLowerCase());
@@ -69,30 +69,38 @@ export class Register {
       }
     });
   }
-  register() {
-    const body = this.registerForm.value;
-    this.authService.register(body).subscribe({
-      next: (data) => {
-        this._router.navigate(['/auth/login/' + this.rolePath.toLowerCase()]);
-      },
-      error: (err) => {
-        this.showSnackBar(err);
-      },
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-  resetRegisterForm() {
+
+  register(): void {
+    const body = this.registerForm.value;
+    this.authService
+      .register(body)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this._router.navigate(['/auth/login/' + this.rolePath.toLowerCase()]);
+        },
+        error: (err) => {
+          this.showSnackBar(err);
+        },
+      });
+  }
+  resetRegisterForm(): void {
     this.registerForm.reset();
   }
-  focus(input: HTMLElement) {
+  focus(input: HTMLElement): void {
     input.focus();
   }
 
-  showSnackBar(message: string) {
+  showSnackBar(message: string): void {
     this._snackBar.open(message, 'Close', {
       duration: 3000,
     });
   }
-  private passwordsMatchValidator(control: AbstractControl) {
+  private passwordsMatchValidator(control: AbstractControl): any {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordsMismatch: true };

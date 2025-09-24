@@ -8,7 +8,7 @@ export const jwtGuard: CanActivateFn = (route, state) => {
   const snackBar: MatSnackBar = inject(MatSnackBar);
   const router: Router = inject(Router);
 
-  if (stateService.existToken() == false) {
+  if (!stateService.existToken()) {
     snackBar.open('Unauthorized', 'close', {
       verticalPosition: 'top',
       duration: 5000,
