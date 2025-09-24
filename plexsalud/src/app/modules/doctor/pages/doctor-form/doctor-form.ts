@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, Signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { Doctor } from '../../services/doctor';
@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Subject, takeUntil } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-doctor-form',
@@ -18,6 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
+    MatSelectModule,
     RouterModule,
   ],
   templateUrl: './doctor-form.html',
@@ -28,6 +30,34 @@ export class DoctorForm {
   private doctorService: Doctor = inject(Doctor);
 
   private formBuilder: FormBuilder = inject(FormBuilder);
+
+  specialties: Signal<string[]> = signal<string[]>([
+    'cardiology',
+    'dermatology',
+    'neurology',
+    'orthopedics',
+    'pediatrics',
+    'psychiatry',
+    'gastroenterology',
+    'endocrinology',
+    'pulmonology',
+    'nephrology',
+    'urology',
+    'rheumatology',
+    'oncology',
+    'hematology',
+    'ophthalmology',
+    'otolaryngology',
+    'general surgery',
+    'plastic surgery',
+    'vascular surgery',
+    'infectious disease',
+    'allergy and immunology',
+    'internal medicine',
+    'family medicine',
+    'geriatrics',
+    'obstetrics and gynecology',
+  ]);
 
   doctorForm: FormGroup = this.formBuilder.group({
     fullName: ['', [Validators.required], []],

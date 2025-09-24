@@ -3,6 +3,9 @@ import { Calendar } from '../../../../shared/components/calendar/calendar';
 import { Router } from '@angular/router';
 import { Doctor } from '../../services/doctor';
 import { Subject, takeUntil } from 'rxjs';
+import { Identity } from '@fullcalendar/core/internal';
+import { EventClickArg, EventSourceInput } from '@fullcalendar/core/index.js';
+import { Appointment } from '../../../../shared/services/appointment';
 
 @Component({
   selector: 'app-doctor-profile',
@@ -11,12 +14,15 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './doctor-profile.css',
 })
 export class DoctorProfile {
+  private appointmentServices: Appointment = inject(Appointment);
+  calendarEvents: any = signal<Identity<EventSourceInput>[]>([]);
   user = signal('');
   private doctorService: Doctor = inject(Doctor);
   private _router: Router = inject(Router);
 
   ngOnInit(): void {
     this.load();
+    this.getAllAppointmentsByDoctor();
   }
 
   private destroy$ = new Subject<void>();
@@ -26,7 +32,7 @@ export class DoctorProfile {
     this.destroy$.complete();
   }
 
-  load(): void {
+  private load(): void {
     this.doctorService
       .getSellf()
       .pipe(takeUntil(this.destroy$))
@@ -41,5 +47,42 @@ export class DoctorProfile {
           }
         },
       });
+  }
+
+  private getAllAppointmentsByDoctor(): void {
+    this.appointmentServices
+      .getAllAppointmentsByDoctor()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          const events = data.map((i) => {
+            return {
+              start: i.date,
+              extendedProps: {
+                uuid: i.uuid,
+              },
+            };
+          });
+          this.calendarEvents.set(events);
+        },
+        error: () => {},
+      });
+  }
+
+  removeAppointment(event: EventClickArg): void {
+    console.log('remove--->');
+    console.log(event.event.extendedProps);
+    const uuid = event.event.extendedProps['uuid'];
+    if (uuid) {
+      this.appointmentServices
+        .cancelAppointment(uuid)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (data) => {
+            alert(data);
+          },
+          error: () => {},
+        });
+    }
   }
 }

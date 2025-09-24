@@ -4,6 +4,7 @@ import {
   inject,
   Input,
   Output,
+  signal,
   Signal,
   SimpleChanges,
 } from '@angular/core';
@@ -23,7 +24,7 @@ import { Identity } from '@fullcalendar/core/internal';
   styleUrl: './calendar.css',
 })
 export class Calendar {
-  @Input() events: Identity<EventSourceInput>[] = [];
+  @Input() events: Signal<Identity<EventSourceInput>[]> = signal<Identity<EventSourceInput>[]>([]);
 
   @Output() addAppointment = new EventEmitter<DateClickArg>();
   @Output() removeAppointment = new EventEmitter<EventClickArg>();
@@ -42,7 +43,8 @@ export class Calendar {
     editable: false,
     slotDuration: '01:00:00',
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    events: [],
+    events: this.events(),
+    // events: [],
     dateClick: (arg: DateClickArg) => this.handleDateClick(arg),
     eventClick: (arg: EventClickArg) => this.handleEventClick(arg),
   };
