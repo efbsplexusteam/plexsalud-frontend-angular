@@ -27,25 +27,24 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './login.css',
 })
 export class Login {
-  private _snackBar: MatSnackBar = inject(MatSnackBar);
+  url = environment.url;
+  rolePath!: Role;
 
-  private authService: Auth = inject(Auth);
+  private stateService: State = inject(State);
+  role: Signal<string> = this.stateService.role;
+
   private formBuilder: FormBuilder = inject(FormBuilder);
   loginForm: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email], []],
     password: ['', [Validators.required], []],
     role: ['', [Validators.required]],
   });
+  private _snackBar: MatSnackBar = inject(MatSnackBar);
+
+  private authService: Auth = inject(Auth);
   private _activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private _router: Router = inject(Router);
 
-  private stateService: State = inject(State);
-
-  role: Signal<string> = this.stateService.role;
-
-  rolePath!: Role;
-
-  url = environment.url;
 
   private destroy$ = new Subject<void>();
   ngOnInit(): void {

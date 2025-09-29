@@ -14,9 +14,9 @@ import { Appointment } from '../../../../shared/services/appointment';
   styleUrl: './doctor-profile.css',
 })
 export class DoctorProfile {
-  private appointmentServices: Appointment = inject(Appointment);
   calendarEvents: any = signal<Identity<EventSourceInput>[]>([]);
   user = signal('');
+  private appointmentServices: Appointment = inject(Appointment);
   private doctorService: Doctor = inject(Doctor);
   private _router: Router = inject(Router);
 
@@ -65,13 +65,10 @@ export class DoctorProfile {
           });
           this.calendarEvents.set(events);
         },
-        error: () => {},
       });
   }
 
   removeAppointment(event: EventClickArg): void {
-    console.log('remove--->');
-    console.log(event.event.extendedProps);
     const uuid = event.event.extendedProps['uuid'];
     if (uuid) {
       this.appointmentServices
@@ -81,7 +78,6 @@ export class DoctorProfile {
           next: (data) => {
             alert(data);
           },
-          error: () => {},
         });
     }
   }

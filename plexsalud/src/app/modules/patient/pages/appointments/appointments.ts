@@ -39,7 +39,6 @@ export class Appointments {
           next: (data) => {
             alert(data);
           },
-          error: () => {},
         });
     }
   }
@@ -60,7 +59,6 @@ export class Appointments {
           });
           this.calendarEvents.set(events);
         },
-        error: () => {},
       });
   }
 }

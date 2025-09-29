@@ -30,8 +30,8 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './register.css',
 })
 export class Register {
-  private _snackBar: MatSnackBar = inject(MatSnackBar);
-
+  rolePath!: Role;
+  
   private authService: Auth = inject(Auth);
   private formBuilder: FormBuilder = inject(FormBuilder);
 
@@ -46,10 +46,11 @@ export class Register {
       validators: [this.passwordsMatchValidator],
     }
   );
+
+  private _snackBar: MatSnackBar = inject(MatSnackBar);
   private _router: Router = inject(Router);
 
   private _activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  rolePath!: Role;
 
   private destroy$ = new Subject<void>();
 

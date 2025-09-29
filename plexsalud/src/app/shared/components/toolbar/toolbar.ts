@@ -15,46 +15,14 @@ import { Auth } from '../../../modules/auth/services/auth';
   styleUrl: './toolbar.css',
 })
 export class Toolbar {
-  darkMode = false;
-
-  // constructor(private renderer: Renderer2) {
-  //   this.loadTheme(); // Cargar el modo guardado
-  // }
-
-  // toggleTheme() {
-  //   this.darkMode = !this.darkMode;
-  //   if (this.darkMode) {
-  //     this.renderer.addClass(document.body, 'dark');
-  //     this.renderer.removeClass(document.body, 'light');
-  //     localStorage.setItem('theme', 'dark');
-  //   } else {
-  //     this.renderer.addClass(document.body, 'light');
-  //     this.renderer.removeClass(document.body, 'dark');
-  //     localStorage.setItem('theme', 'light');
-  //   }
-  // }
-
-  // loadTheme() {
-  //   const savedTheme = localStorage.getItem('theme');
-  //   if (savedTheme === 'dark') {
-  //     this.darkMode = true;
-  //     this.renderer.addClass(document.body, 'dark');
-  //   } else {
-  //     this.darkMode = false;
-  //     this.renderer.addClass(document.body, 'light');
-  //   }
-  // }
-
-  _router: Router = inject(Router);
+  @Input() matDrawerShow!: MatDrawer;
 
   private stateService: State = inject(State);
 
-  private authService: Auth = inject(Auth);
-
-  role: Signal<string> = this.stateService.role;
   existToken: Signal<boolean> = this.stateService.existToken;
+  role: Signal<string> = this.stateService.role;
 
-  @Input() matDrawerShow!: MatDrawer;
+  private authService: Auth = inject(Auth);
 
   ngOnInit(): void {
     const role = sessionStorage.getItem('role');
@@ -67,8 +35,7 @@ export class Toolbar {
     }
   }
 
-  logout() {
-    /* funcion para desloguear y volver al login */
+  logout(): void {
     const isLeave = confirm('¿are you sure you want to leave?');
 
     if (isLeave) {

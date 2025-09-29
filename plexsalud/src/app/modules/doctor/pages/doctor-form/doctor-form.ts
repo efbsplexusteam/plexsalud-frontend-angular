@@ -26,11 +26,6 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrl: './doctor-form.css',
 })
 export class DoctorForm {
-  private _router: Router = inject(Router);
-  private doctorService: Doctor = inject(Doctor);
-
-  private formBuilder: FormBuilder = inject(FormBuilder);
-
   specialties: Signal<string[]> = signal<string[]>([
     'cardiology',
     'dermatology',
@@ -59,10 +54,15 @@ export class DoctorForm {
     'obstetrics and gynecology',
   ]);
 
+  private formBuilder: FormBuilder = inject(FormBuilder);
+
   doctorForm: FormGroup = this.formBuilder.group({
     fullName: ['', [Validators.required], []],
     specialty: ['', [Validators.required], []],
   });
+
+  private _router: Router = inject(Router);
+  private doctorService: Doctor = inject(Doctor);
 
   private destroy$ = new Subject<void>();
 
