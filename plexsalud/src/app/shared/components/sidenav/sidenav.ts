@@ -24,5 +24,4 @@ import { Observable } from 'rxjs';
 })
 export class Sidenav {
   user$: Observable<{ user: { role: string } }> = new Observable();
-  constructor() {}
 }

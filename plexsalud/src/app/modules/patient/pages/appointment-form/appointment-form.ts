@@ -29,8 +29,6 @@ import { Router } from '@angular/router';
   styleUrl: './appointment-form.css',
 })
 export class AppointmentForm {
-  private _router: Router = inject(Router);
-
   specialties = signal<string[]>([]);
 
   doctors = signal<{ fullName: string; uuid: string }[]>([]);
@@ -38,8 +36,6 @@ export class AppointmentForm {
   calendarEvents: any[] = [];
 
   private _formBuilder = inject(FormBuilder);
-
-  private appointmentServices: Appointment = inject(Appointment);
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -53,6 +49,10 @@ export class AppointmentForm {
 
   specialty = signal<string>('');
 
+  private _router: Router = inject(Router);
+
+  private appointmentServices: Appointment = inject(Appointment);
+
   private doctorServices: Doctor = inject(Doctor);
   private destroy$ = new Subject<void>();
 
@@ -65,7 +65,7 @@ export class AppointmentForm {
     this.destroy$.complete();
   }
 
-  getAllDoctorsBySpecialty(specialty: string) {
+  getAllDoctorsBySpecialty(specialty: string): void {
     this.doctorServices
       .getAllDoctorsBySpecialty(specialty)
       .pipe(takeUntil(this.destroy$))
@@ -73,7 +73,6 @@ export class AppointmentForm {
         next: (data) => {
           this.doctors.set(data);
         },
-        error: () => {},
       });
   }
 
@@ -85,13 +84,10 @@ export class AppointmentForm {
         next: (data) => {
           this.specialties.set(data);
         },
-        error: () => {},
       });
   }
 
-  addAppointment(event: DateClickArg) {
-    console.log('add--->');
-    console.log(event.date);
+  addAppointment(event: DateClickArg): void {
     const doctor = this.secondFormGroup.value.secondCtrl;
     if (doctor) {
       this.appointmentServices
@@ -101,17 +97,13 @@ export class AppointmentForm {
           next: () => {
             this._router.navigate(['../profile']);
           },
-          error: () => {},
         });
     }
   }
 
-  removeAppointment(event: EventClickArg) {
-    console.log('remove--->');
-    console.log(event.event.extendedProps);
-  }
+  removeAppointment(event: EventClickArg): void {}
 
-  getAllAppointmentsByDoctorSearchByPatient(doctor: string) {
+  getAllAppointmentsByDoctorSearchByPatient(doctor: string): void {
     this.appointmentServices
       .getAllAppointmentsByDoctorSearchByPatient(doctor)
       .pipe(takeUntil(this.destroy$))
@@ -127,7 +119,6 @@ export class AppointmentForm {
           });
           this.calendarEvents = events;
         },
-        error: () => {},
       });
   }
 

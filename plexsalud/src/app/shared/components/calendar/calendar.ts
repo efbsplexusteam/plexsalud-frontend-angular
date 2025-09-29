@@ -24,7 +24,7 @@ import { Identity } from '@fullcalendar/core/internal';
   styleUrl: './calendar.css',
 })
 export class Calendar {
-  @Input() events: Signal<Identity<EventSourceInput>[]> = signal<Identity<EventSourceInput>[]>([]);
+  @Input() events: any = signal<Identity<EventSourceInput>[]>([]);
 
   @Output() addAppointment = new EventEmitter<DateClickArg>();
   @Output() removeAppointment = new EventEmitter<EventClickArg>();
@@ -49,7 +49,7 @@ export class Calendar {
     eventClick: (arg: EventClickArg) => this.handleEventClick(arg),
   };
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes['events']) {
       this.calendarOptions = {
         ...this.calendarOptions,
@@ -58,7 +58,7 @@ export class Calendar {
     }
   }
 
-  handleDateClick(arg: DateClickArg) {
+  handleDateClick(arg: DateClickArg): void {
     const calendarApi = arg.view.calendar;
 
     const today = new Date();
@@ -93,7 +93,7 @@ export class Calendar {
     }
   }
 
-  handleEventClick(arg: EventClickArg) {
+  handleEventClick(arg: EventClickArg): void {
     const calendarApi = arg.view.calendar;
 
     if (calendarApi.view.type === 'dayGridMonth') {

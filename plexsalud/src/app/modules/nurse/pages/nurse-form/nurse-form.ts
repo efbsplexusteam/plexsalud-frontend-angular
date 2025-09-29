@@ -24,14 +24,14 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './nurse-form.css',
 })
 export class NurseForm {
-  private nurseService: Nurse = inject(Nurse);
-  private _router: Router = inject(Router);
-
   private formBuilder: FormBuilder = inject(FormBuilder);
 
   nurseForm: FormGroup = this.formBuilder.group({
     fullName: ['', [Validators.required], []],
   });
+
+  private nurseService: Nurse = inject(Nurse);
+  private _router: Router = inject(Router);
 
   private destroy$ = new Subject<void>();
 
