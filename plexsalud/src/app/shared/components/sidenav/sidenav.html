@@ -14,7 +14,7 @@
 
         <br>
 
-        @if ((user$|async)?.user?.role=='') {
+        @if ((user$|async)?.user?.role==='') {
         <a mat-flat-button (click)="drawer.toggle()" [routerLink]="['/auth/login']" [routerLinkActive]="['active']">
             Login
         </a>
@@ -22,7 +22,7 @@
 
         <br>
 
-        @if ((user$|async)?.user?.role=='') {
+        @if ((user$|async)?.user?.role==='') {
         <a mat-flat-button (click)="drawer.toggle()" [routerLink]="['/auth/register']" [routerLinkActive]="['active']">
             Register
         </a>
