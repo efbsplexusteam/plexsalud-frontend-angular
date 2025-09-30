@@ -41,7 +41,7 @@ export class DoctorProfile {
           this.user.set(data.fullName);
         },
         error: (err) => {
-          if (err.status == '404') {
+          if (err.status === '404') {
             console.log(err);
             this._router.navigate(['doctor/form']);
           }

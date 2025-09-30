@@ -78,7 +78,7 @@ export class Login {
           this._router.navigate([`/${redirect}/profile`]);
         },
         error: (err) => {
-          if (err.status == 401) {
+          if (err.status === 401) {
             this.showSnackBar('Bad credentials');
           }
         },

@@ -11,22 +11,22 @@
     <!-- + Contenedor de iconos desplazables -->
     <div class="scroll-container">
 
-        @if (existToken()==false) {
+        @if (existToken()===false) {
         <button mat-icon-button [routerLink]="['/auth/login/patient']" [routerLinkActive]="['active']">
             <mat-icon>login</mat-icon>
         </button>
         }
-        @if (existToken()==false) {
+        @if (existToken()===false) {
         <button mat-icon-button [routerLink]="['/auth/register/patient']" [routerLinkActive]="['active']">
             <mat-icon>person_add</mat-icon>
         </button>
         }
-        @if (existToken()==true) {
+        @if (existToken()===true) {
         <button mat-icon-button [routerLink]="[role().toLowerCase() + '/profile']" [routerLinkActive]="['active']">
             <mat-icon>person</mat-icon>
         </button>
         }
-        @if (existToken()==true) {
+        @if (existToken()===true) {
         <button mat-icon-button (click)="logout()">
             <mat-icon>logout</mat-icon>
         </button>

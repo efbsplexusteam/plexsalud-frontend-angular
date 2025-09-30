@@ -34,7 +34,7 @@ export class NurseProfile {
           this.user.set(data.fullName);
         },
         error: (err) => {
-          if (err.status == '404') {
+          if (err.status === '404') {
             console.log(err);
             this._router.navigate(['nurse/form']);
           }
