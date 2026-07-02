@@ -8,9 +8,8 @@ describe('Landing', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Landing]
-    })
-    .compileComponents();
+      imports: [Landing],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Landing);
     component = fixture.componentInstance;
@@ -19,5 +18,15 @@ describe('Landing', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render the title', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('Plexsalud');
+  });
+
+  it('should render the under construction message', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.textContent).toContain('under construction');
   });
 });
