@@ -7,6 +7,9 @@ describe('Sidenav', () => {
   let fixture: ComponentFixture<Sidenav>;
 
   beforeEach(async () => {
+    sessionStorage.setItem('role', 'patient');
+    sessionStorage.setItem('access_token', 'test-token');
+
     await TestBed.configureTestingModule({
       imports: [Sidenav]
     })
@@ -15,6 +18,10 @@ describe('Sidenav', () => {
     fixture = TestBed.createComponent(Sidenav);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
   });
 
   it('should create', () => {

@@ -7,6 +7,9 @@ describe('Toolbar', () => {
   let fixture: ComponentFixture<Toolbar>;
 
   beforeEach(async () => {
+    sessionStorage.setItem('role', 'patient');
+    sessionStorage.setItem('access_token', 'test-token');
+
     await TestBed.configureTestingModule({
       imports: [Toolbar]
     })
@@ -15,6 +18,10 @@ describe('Toolbar', () => {
     fixture = TestBed.createComponent(Toolbar);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
   });
 
   it('should create', () => {

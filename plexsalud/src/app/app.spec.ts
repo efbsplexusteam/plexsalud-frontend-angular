@@ -1,13 +1,21 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
+    sessionStorage.setItem('role', 'patient');
+    sessionStorage.setItem('access_token', 'test-token');
+
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideZonelessChangeDetection()]
+      providers: [provideZonelessChangeDetection(), provideRouter([])]
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
   });
 
   it('should create the app', () => {
@@ -16,10 +24,10 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render title', () => {
+  it('should render app component', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, plexsalud');
+    expect(compiled.querySelector('app-sidenav')).toBeTruthy();
   });
 });
